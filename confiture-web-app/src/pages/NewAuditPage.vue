@@ -165,25 +165,25 @@ function deleteContact(i: number) {
         </div>
 
         <div class="fr-input-group">
-          <label class="fr-label" for="procedure-auditor-name">
+          <label class="fr-label" :for="`procedure-auditor-name-${i + 1}`">
             Nom et prénom du contact
           </label>
           <input
-            id="procedure-auditor-name"
+            :id="`procedure-auditor-name-${i + 1}`"
             v-model="contact.name"
             class="fr-input"
           />
         </div>
 
         <div class="fr-input-group">
-          <label class="fr-label" for="procedure-auditor-email">
+          <label class="fr-label" :for="`procedure-auditor-email-${i + 1}`">
             Adresse e-mail du contact
             <span class="fr-hint-text">
               Exemple : prenom.nom@ministere.gouv.fr
             </span>
           </label>
           <input
-            id="procedure-auditor-email"
+            :id="`procedure-auditor-email-${i + 1}`"
             v-model="contact.email"
             class="fr-input"
             type="email"
