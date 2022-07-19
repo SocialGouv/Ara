@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 
 const procedureName = ref("");
 const procedureMinistry = ref("");
@@ -17,12 +17,27 @@ const procedureRecipients = ref([
 const procedureAuditorName = ref("");
 const procedureAuditorEmail = ref("");
 
-function addContact() {
+const contactNameRefs = ref<HTMLInputElement[]>([]);
+
+/**
+ * Create a new contact and focus its name first
+ */
+async function addContact() {
   procedureRecipients.value.push({ name: "", email: "" });
+  await nextTick();
+  const lastInput = contactNameRefs.value[contactNameRefs.value.length - 1];
+  lastInput.focus();
 }
 
-function deleteContact(i: number) {
+/**
+ * Delete contact at index and focus previous name field.
+ * @param {number} i
+ */
+async function deleteContact(i: number) {
   procedureRecipients.value.splice(i, 1);
+  await nextTick();
+  const previousInput = contactNameRefs.value[i - 1];
+  previousInput.focus();
 }
 </script>
 
@@ -199,6 +214,7 @@ function deleteContact(i: number) {
           </label>
           <input
             :id="`procedure-auditor-name-${i + 1}`"
+            ref="contactNameRefs"
             v-model="contact.name"
             class="fr-input"
           />
