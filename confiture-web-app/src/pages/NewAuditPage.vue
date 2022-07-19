@@ -1,19 +1,28 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 
-const contacts = ref([
+const procedureName = ref("");
+const procedureMinistry = ref("");
+const procedureAdministration = ref("");
+const procedureSiteUrl = ref("");
+const procedureManagerName = ref("");
+const procedureManagerEmail = ref("");
+const procedureManagerFormUrl = ref("");
+const procedureRecipients = ref([
   {
     name: "",
     email: "",
   },
 ]);
+const procedureAuditorName = ref("");
+const procedureAuditorEmail = ref("");
 
 function addContact() {
-  contacts.value.push({ name: "", email: "" });
+  procedureRecipients.value.push({ name: "", email: "" });
 }
 
 function deleteContact(i: number) {
-  contacts.value.splice(i, 1);
+  procedureRecipients.value.splice(i, 1);
 }
 </script>
 
@@ -29,7 +38,7 @@ function deleteContact(i: number) {
       data-fr-steps="2"
     ></div>
     <p class="fr-stepper__details">
-      <span class="fr-text--bold">Étape suivante :</span> Paramètre de l’audit
+      <span class="fr-text--bold">Étape suivante :</span> Paramètres de l’audit
     </p>
   </div>
   <form class="content" @submit.prevent>
@@ -37,7 +46,13 @@ function deleteContact(i: number) {
 
     <div class="fr-input-group">
       <label class="fr-label" for="procedure-name">Nom de la démarche</label>
-      <input id="procedure-name" class="fr-input" type="text" required />
+      <input
+        id="procedure-name"
+        v-model="procedureName"
+        class="fr-input"
+        type="text"
+        required
+      />
     </div>
 
     <fieldset class="fr-fieldset fr-mt-6w">
@@ -46,11 +61,12 @@ function deleteContact(i: number) {
       </legend>
 
       <div id="header-search" class="fr-search-bar fr-mb-2w" role="search">
-        <label class="fr-label" for="procedure-ministere">
+        <label class="fr-label" for="procedure-ministry">
           Rechercher un ministère
         </label>
         <input
-          id="procedure-ministere"
+          id="procedure-ministry"
+          v-model="procedureMinistry"
           class="fr-input"
           placeholder="Rechercher un ministère"
           type="search"
@@ -64,6 +80,7 @@ function deleteContact(i: number) {
         </label>
         <input
           id="procedure-administration"
+          v-model="procedureAdministration"
           class="fr-input"
           type="text"
           required
@@ -78,11 +95,17 @@ function deleteContact(i: number) {
       </legend>
 
       <div class="fr-input-group">
-        <label class="fr-label" for="procedure-url">
+        <label class="fr-label" for="procedure-site-url">
           URL du site de la démarche
           <span class="fr-hint-text">Par exemple http://demarche.gouv.fr</span>
         </label>
-        <input id="procedure-url" class="fr-input" type="url" required />
+        <input
+          id="procedure-site-url"
+          v-model="procedureSiteUrl"
+          class="fr-input"
+          type="url"
+          required
+        />
       </div>
     </fieldset>
 
@@ -100,19 +123,24 @@ function deleteContact(i: number) {
       </p>
 
       <div class="fr-input-group">
-        <label class="fr-label" for="procedure-contact-name">
-          Nom et prénom du contact (optionnel)
-        </label>
-        <input id="procedure-contact-name" class="fr-input" />
+        <label class="fr-label" for="procedure-manager-name">
+          Nom et prénom du contact (optionnel)</label
+        >
+        <input
+          id="procedure-manager-name"
+          v-model="procedureManagerName"
+          class="fr-input"
+        />
       </div>
 
       <div class="fr-input-group">
-        <label class="fr-label" for="procedure-contact-email">
+        <label class="fr-label" for="procedure-manager-email">
           Adresse e-mail
           <span class="fr-hint-text">Exemple : contact@ministere.gouv.fr</span>
         </label>
         <input
-          id="procedure-contact-email"
+          id="procedure-manager-email"
+          v-model="procedureManagerEmail"
           class="fr-input"
           type="email"
           required
@@ -120,12 +148,13 @@ function deleteContact(i: number) {
       </div>
 
       <div class="fr-input-group">
-        <label class="fr-label" for="procedure-contact-form">
+        <label class="fr-label" for="procedure-manager-form-url">
           URL vers formulaire de contact
           <span class="fr-hint-text">Exemple : contact@ministere.gouv.fr</span>
         </label>
         <input
-          id="procedure-contact-form"
+          id="procedure-manager-form-url"
+          v-model="procedureManagerFormUrl"
           class="fr-input"
           type="url"
           required
@@ -145,7 +174,7 @@ function deleteContact(i: number) {
       </p>
 
       <fieldset
-        v-for="(contact, i) in contacts"
+        v-for="(contact, i) in procedureRecipients"
         :key="i"
         class="fr-fieldset fr-mt-4w fr-p-4w contact-card"
       >
@@ -157,7 +186,7 @@ function deleteContact(i: number) {
           <button
             class="fr-link"
             type="button"
-            :disabled="contacts.length === 1"
+            :disabled="procedureRecipients.length === 1"
             @click="deleteContact(i)"
           >
             Supprimer
@@ -190,9 +219,6 @@ function deleteContact(i: number) {
             required
           />
         </div>
-
-        {{ contact.email }}
-        {{ contact.name }}
       </fieldset>
 
       <button
@@ -213,7 +239,11 @@ function deleteContact(i: number) {
         <label class="fr-label" for="procedure-auditor-name">
           Nom et prénom de l’auditeur
         </label>
-        <input id="procedure-auditor-name" class="fr-input" />
+        <input
+          id="procedure-auditor-name"
+          v-model="procedureAuditorName"
+          class="fr-input"
+        />
       </div>
 
       <div class="fr-input-group">
@@ -225,6 +255,7 @@ function deleteContact(i: number) {
         </label>
         <input
           id="procedure-auditor-email"
+          v-model="procedureAuditorEmail"
           class="fr-input"
           type="email"
           required
