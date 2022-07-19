@@ -39,6 +39,42 @@ async function deleteContact(i: number) {
   const previousInput = contactNameRefs.value[i - 1];
   previousInput.focus();
 }
+
+function submitFirstStep() {
+  // TODO: complete
+  const data = {
+    procedureName: procedureName.value,
+    procedureMinistry: procedureMinistry.value,
+    procedureAdministration: procedureAdministration.value,
+    procedureSiteUrl: procedureSiteUrl.value,
+    procedureManagerName: procedureManagerName.value,
+    procedureManagerEmail: procedureManagerEmail.value,
+    procedureManagerFormUrl: procedureManagerFormUrl.value,
+    procedureRecipients: procedureRecipients.value,
+    procedureAuditorName: procedureAuditorName.value,
+    procedureAuditorEmail: procedureAuditorEmail.value,
+  };
+  console.log(data);
+}
+
+/**
+ * Dev function to avoid filling all fields manually
+ */
+function fillFields() {
+  procedureName.value = "Ma procédure";
+  procedureMinistry.value = "Ministère de l’éducation";
+  procedureAdministration.value = "Mon projet d’école";
+  procedureSiteUrl.value = "https://example.com";
+  procedureManagerName.value = "Philipinne Jolivet";
+  procedureManagerEmail.value = "philipinne-jolivet@example.com";
+  procedureManagerFormUrl.value = "https://example.com/contact";
+  procedureRecipients.value = [
+    { name: "Isabelle", email: "isabelle@example.com" },
+    { name: "Marc", email: "marc@example.com" },
+  ];
+  procedureAuditorName.value = "Etienne Dupont";
+  procedureAuditorEmail.value = "etienne-dupont@example.com";
+}
 </script>
 
 <template>
@@ -56,8 +92,12 @@ async function deleteContact(i: number) {
       <span class="fr-text--bold">Étape suivante :</span> Paramètres de l’audit
     </p>
   </div>
-  <form class="content" @submit.prevent>
+  <form class="content" @submit.prevent="submitFirstStep">
     <h1>📄 Informations générales de la démarche à auditer</h1>
+
+    <button class="fr-btn fr-mb-1w" type="button" @click="fillFields">
+      [DEV] Remplir les champs
+    </button>
 
     <div class="fr-input-group">
       <label class="fr-label" for="procedure-name">Nom de la démarche</label>
@@ -165,7 +205,6 @@ async function deleteContact(i: number) {
       <div class="fr-input-group">
         <label class="fr-label" for="procedure-manager-form-url">
           URL vers formulaire de contact
-          <span class="fr-hint-text">Exemple : contact@ministere.gouv.fr</span>
         </label>
         <input
           id="procedure-manager-form-url"
