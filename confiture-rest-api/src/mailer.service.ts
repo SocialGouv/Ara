@@ -35,7 +35,7 @@ export class MailerService {
 
   sendAuditCreatedMail(audit: Audit) {
     const auditUrl = `${this.config.get('FRONT_BASE_URL')}/audits/${
-      audit.uniqueId
+      audit.editUniqueId
     }`;
     return this.sendMail(
       'contact@slash-tmp.dev',
