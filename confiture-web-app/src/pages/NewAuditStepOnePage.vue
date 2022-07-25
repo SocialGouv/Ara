@@ -61,6 +61,7 @@ function submitStepOne() {
 }
 
 /**
+ * TODO: remove this
  * Dev function to avoid filling all fields manually
  */
 function fillFields() {
@@ -97,10 +98,6 @@ function fillFields() {
   </div>
   <form class="content" @submit.prevent="submitStepOne">
     <h1>📄 Informations générales de la démarche à auditer</h1>
-
-    <button class="fr-btn fr-mb-1w" type="button" @click="fillFields">
-      [DEV] Remplir les champs
-    </button>
 
     <div class="fr-input-group">
       <label class="fr-label" for="procedure-name">Nom de la démarche</label>
@@ -320,6 +317,12 @@ function fillFields() {
         />
       </div>
     </fieldset>
+
+    <div>
+      <button class="fr-btn fr-mt-6w" type="button" @click="fillFields">
+        [DEV] Remplir les champs
+      </button>
+    </div>
 
     <button class="fr-btn fr-mt-6w" type="submit">Suivant</button>
   </form>

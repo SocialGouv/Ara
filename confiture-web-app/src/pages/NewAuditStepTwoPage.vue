@@ -117,11 +117,47 @@ async function deleteEnvironment(i: number) {
 }
 
 function submitStepTwo() {
-  console.log("submit step 2!");
+  // TODO: complete
+  const data = {
+    auditType: auditType.value,
+    tools: tools.value,
+    environments: environments.value,
+    pages: pages.value,
+  };
+  console.log(data);
 }
 
 function toStepOne() {
   router.push({ name: "new-audit-step-one" });
+}
+
+/**
+ * TODO: remove this
+ * Dev function to avoid filling all fields manually
+ */
+function fillFields() {
+  auditType.value = "complementary";
+  tools.value = [
+    "WCAG Contrast checker",
+    "Firefox Devtools",
+    "Web Accessibility Toolbar",
+  ];
+  environments.value = [
+    {
+      support: "desktop",
+      at: "jaws-latest",
+      browser: "edge",
+    },
+    {
+      support: "mobile",
+      at: "nvda-previous",
+      browser: "chrome",
+    },
+  ];
+  pages.value = [
+    { name: "Accueil", url: "https://example.com" },
+    { name: "Contact", url: "https://example.com/contact" },
+  ];
 }
 </script>
 
@@ -328,6 +364,16 @@ function toStepOne() {
     >
       Ajouter page
     </button>
+
+    <div>
+      <button
+        class="fr-btn fr-mt-6w fr-mb-1w"
+        type="button"
+        @click="fillFields"
+      >
+        [DEV] Remplir les champs
+      </button>
+    </div>
 
     <div class="fr-mt-6w">
       <button
