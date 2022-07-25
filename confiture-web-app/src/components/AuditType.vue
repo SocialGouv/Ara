@@ -8,11 +8,11 @@ defineProps<{
   checked: boolean;
   modelValue: string | undefined;
 }>();
-defineEmits(['update:modelValue'])
+defineEmits(["update:modelValue"]);
 </script>
 
 <template>
-  <div :class="['fr-p-3w container', { checked: checked}]">
+  <div :class="['fr-p-3w container', { checked: checked }]">
     <p class="fr-badge fr-badge--sm fr-badge--purple-glycine fr-mb-2w">
       {{ badge }}
     </p>
@@ -22,8 +22,11 @@ defineEmits(['update:modelValue'])
         type="radio"
         name="audit-type"
         :value="value"
-        @change="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+        @change="
+          $emit('update:modelValue', ($event.target as HTMLInputElement).value)
+        "
       />
+      <!-- TODO: make the whole square clickable -->
       <label
         class="fr-label fr-text--xl fr-text--bold label"
         :for="`audit-type-${value}`"

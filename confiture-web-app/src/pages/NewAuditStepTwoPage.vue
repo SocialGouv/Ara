@@ -138,7 +138,7 @@ function toStepOne() {
       <fieldset
         v-for="(page, i) in pages"
         :key="i"
-        class="fr-fieldset fr-mt-4w"
+        class="fr-fieldset fr-mt-4w fr-p-4w page-card"
       >
         <div class="fr-mb-2w page-header">
           <legend>
@@ -216,6 +216,10 @@ function toStepOne() {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+}
+
+.page-card {
+  border: 1px solid var(--border-default-grey);
 }
 
 .page-header {
