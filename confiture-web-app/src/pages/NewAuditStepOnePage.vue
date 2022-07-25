@@ -2,9 +2,8 @@
 import { ref, nextTick } from "vue";
 import router from "../router";
 
+const procedureEntity = ref("");
 const procedureName = ref("");
-const procedureMinistry = ref("");
-const procedureAdministration = ref("");
 const procedureSiteUrl = ref("");
 const procedureManagerName = ref("");
 const procedureManagerEmail = ref("");
@@ -45,9 +44,8 @@ async function deleteContact(i: number) {
 function submitStepOne() {
   // TODO: complete
   const data = {
+    procedureEntity: procedureEntity.value,
     procedureName: procedureName.value,
-    procedureMinistry: procedureMinistry.value,
-    procedureAdministration: procedureAdministration.value,
     procedureSiteUrl: procedureSiteUrl.value,
     procedureManagerName: procedureManagerName.value,
     procedureManagerEmail: procedureManagerEmail.value,
@@ -65,9 +63,8 @@ function submitStepOne() {
  * Dev function to avoid filling all fields manually
  */
 function fillFields() {
+  procedureEntity.value = "Mairie de Tours";
   procedureName.value = "Ma procédure";
-  procedureMinistry.value = "Ministère de l’éducation";
-  procedureAdministration.value = "Mon projet d’école";
   procedureSiteUrl.value = "https://example.com";
   procedureManagerName.value = "Philipinne Jolivet";
   procedureManagerEmail.value = "philipinne-jolivet@example.com";
@@ -100,7 +97,28 @@ function fillFields() {
     <h1>📄 Informations générales de la démarche à auditer</h1>
 
     <div class="fr-input-group">
-      <label class="fr-label" for="procedure-name">Nom de la démarche</label>
+      <label class="fr-label" for="procedure-entity">
+        Entité qui demande l’audit
+        <span class="fr-hint-text">
+          Exemple : Ministère de l’intérieur, Mairie de Toulouse, etc
+        </span>
+      </label>
+      <input
+        id="procedure-entity"
+        v-model="procedureEntity"
+        class="fr-input"
+        type="text"
+        required
+      />
+    </div>
+
+    <div class="fr-input-group">
+      <label class="fr-label" for="procedure-name">
+        Nom de l’audit
+        <span class="fr-hint-text">
+          Il peut s’agir du site ou du parcours que vous allez auditer
+        </span>
+      </label>
       <input
         id="procedure-name"
         v-model="procedureName"
@@ -110,59 +128,16 @@ function fillFields() {
       />
     </div>
 
-    <fieldset class="fr-fieldset fr-mt-6w">
-      <legend>
-        <h2 class="fr-h4 fr-mb-2w">Ministère qui fait la demande</h2>
-      </legend>
-
-      <div id="header-search" class="fr-search-bar fr-mb-2w" role="search">
-        <label class="fr-label" for="procedure-ministry">
-          Rechercher un ministère
-        </label>
-        <input
-          id="procedure-ministry"
-          v-model="procedureMinistry"
-          class="fr-input"
-          placeholder="Rechercher un ministère"
-          type="search"
-        />
-        <button class="fr-btn" title="Rechercher">Rechercher</button>
-      </div>
-
-      <div class="fr-input-group fr-input-group--disabled">
-        <label class="fr-label" for="procedure-administration">
-          Administration
-        </label>
-        <input
-          id="procedure-administration"
-          v-model="procedureAdministration"
-          class="fr-input"
-          type="text"
-          required
-          disabled
-        />
-      </div>
-    </fieldset>
-
-    <fieldset class="fr-fieldset fr-mt-6w">
-      <legend>
-        <h2 class="fr-h4 fr-mb-2w">La démarche à auditer</h2>
-      </legend>
-
-      <div class="fr-input-group">
-        <label class="fr-label" for="procedure-site-url">
-          URL du site de la démarche
-          <span class="fr-hint-text">Par exemple http://demarche.gouv.fr</span>
-        </label>
-        <input
-          id="procedure-site-url"
-          v-model="procedureSiteUrl"
-          class="fr-input"
-          type="url"
-          required
-        />
-      </div>
-    </fieldset>
+    <div class="fr-input-group">
+      <label class="fr-label" for="procedure-url">URL du site à auditer</label>
+      <input
+        id="procedure-url"
+        v-model="procedureSiteUrl"
+        class="fr-input"
+        type="text"
+        required
+      />
+    </div>
 
     <fieldset class="fr-fieldset fr-mt-6w">
       <legend>
