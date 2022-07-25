@@ -20,6 +20,20 @@ const availableTools = [
   "Ace by DAISY App",
   "PEAT (Photosensitive Epilepsy Analysis Tool)",
 ];
+const availableAT = [
+  { label: "NVDA (dernière version)", value: "nvda-latest" },
+  { label: "JAWS (dernière version)", value: "jaws-latest" },
+  { label: "VoiceOver (dernière version)", value: "vo-latest" },
+  { label: "NVDA (version précédente)", value: "nvda-previous" },
+  { label: "JAWS (version précédente)", value: "jaws-previous" },
+  { label: "VoiceOver (version précédente)", value: "vo-previous" },
+];
+const availableBrowsers = [
+  { label: "Firefox", value: "firefox" },
+  { label: "Google Chrome", value: "chrome" },
+  { label: "Microsoft Edge", value: "edge" },
+  { label: "Safari", value: "safari" },
+];
 
 const auditType = ref<string>("");
 const tools = ref<string[]>([]);
@@ -29,8 +43,16 @@ const pages = ref([
     url: "",
   },
 ]);
+const environments = ref([
+  {
+    support: "",
+    at: "",
+    browser: "",
+  },
+]);
 
 const pageNameRefs = ref<HTMLInputElement[]>([]);
+const envSupportRefs = ref<HTMLInputElement[]>([]);
 
 /**
  * Add or remove a tool from the list.
@@ -47,7 +69,7 @@ async function toggleTool(tool: string) {
 }
 
 /**
- * Create a new page and focus its name
+ * Create a new page and focus its name field.
  */
 async function addPage() {
   pages.value.push({ name: "", url: "" });
@@ -68,12 +90,37 @@ async function deletePage(i: number) {
   previousInput.focus();
 }
 
+/**
+ * Create a new environment and focus its support field.
+ */
+async function addEnvironment() {
+  environments.value.push({
+    support: "",
+    at: "",
+    browser: "",
+  });
+  await nextTick();
+  const lastInput = envSupportRefs.value[envSupportRefs.value.length - 1];
+  lastInput.focus();
+}
+
+/**
+ * Delete environment at index and focus previous or first support field.
+ * @param {number} i
+ */
+async function deleteEnvironment(i: number) {
+  environments.value.splice(i, 1);
+  await nextTick();
+  const previousInput =
+    i === 0 ? envSupportRefs.value[0] : envSupportRefs.value[i - 1];
+  previousInput.focus();
+}
+
 function submitStepTwo() {
   console.log("submit step 2!");
 }
 
 function toStepOne() {
-  console.log("to step 1!");
   router.push({ name: "new-audit-step-one" });
 }
 </script>
@@ -132,7 +179,99 @@ function toStepOne() {
         </ul>
       </section>
       <h2 class="fr-h4">Les environnements de test</h2>
-      <p>TO DO...</p>
+      <fieldset
+        v-for="(env, i) in environments"
+        :key="i"
+        class="fr-fieldset fr-mt-4w fr-p-4w env-card"
+      >
+        <div class="env-header">
+          <legend>
+            <h3>Environnement {{ i + 1 }}</h3>
+          </legend>
+          <button
+            class="fr-link"
+            type="button"
+            :disabled="environments.length === 1"
+            @click="deleteEnvironment(i)"
+          >
+            Supprimer
+          </button>
+        </div>
+        <div class="fr-form-group">
+          <fieldset class="fr-fieldset fr-fieldset--inline">
+            <legend class="fr-fieldset__legend fr-text--regular">
+              Support
+            </legend>
+            <div class="fr-fieldset__content">
+              <div class="fr-radio-group">
+                <input
+                  :id="`env-support-desktop-${i}`"
+                  ref="envSupportRefs"
+                  v-model="env.support"
+                  type="radio"
+                  :name="`env-support-${i}`"
+                  value="desktop"
+                />
+                <label class="fr-label" :for="`env-support-desktop-${i}`"
+                  >Desktop</label
+                >
+              </div>
+              <div class="fr-radio-group">
+                <input
+                  :id="`env-support-mobile-${i}`"
+                  v-model="env.support"
+                  type="radio"
+                  :name="`env-support-${i}`"
+                  value="mobile"
+                />
+                <label class="fr-label" :for="`env-support-mobile-${i}`"
+                  >Mobile</label
+                >
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div v-if="env.support" class="fr-select-group">
+          <label class="fr-label" :for="`env-at-${i}`">
+            Technologie d’assistance
+          </label>
+          <select :id="`env-at-${i}`" v-model="env.at" class="fr-select">
+            <option value="" selected disabled hidden>
+              Selectionnez une option
+            </option>
+            <option v-for="at in availableAT" :key="at.value" :value="at.value">
+              {{ at.label }}
+            </option>
+          </select>
+        </div>
+        <div v-if="env.at" class="fr-select-group">
+          <label class="fr-label" :for="`env-browser-${i}`">Navigateur</label>
+          <select
+            :id="`env-browser-${i}`"
+            v-model="env.browser"
+            class="fr-select"
+          >
+            <option value="" selected disabled hidden>
+              Selectionnez une option
+            </option>
+            <option
+              v-for="browser in availableBrowsers"
+              :key="browser.value"
+              :value="browser.value"
+            >
+              {{ browser.label }}
+            </option>
+          </select>
+        </div>
+      </fieldset>
+      <button
+        class="fr-link fr-mt-4w fr-mb-5w fr-link--icon-left fr-icon-add-line"
+        type="button"
+        @click="addEnvironment"
+      >
+        Ajouter environnement
+      </button>
+
       <h2 class="fr-h4">Les pages et URL à auditer</h2>
 
       <fieldset
@@ -218,10 +357,12 @@ function toStepOne() {
   gap: 1rem;
 }
 
+.env-card,
 .page-card {
   border: 1px solid var(--border-default-grey);
 }
 
+.env-header,
 .page-header {
   display: flex;
   align-items: center;
