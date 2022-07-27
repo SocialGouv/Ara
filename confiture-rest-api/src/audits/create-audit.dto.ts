@@ -24,10 +24,7 @@ export class CreateAuditDto {
   procedureUrl: string;
 
   @IsString()
-  ministry: string;
-
-  @IsString()
-  administration: string;
+  initiator: string;
 
   @IsString()
   @IsOptional()

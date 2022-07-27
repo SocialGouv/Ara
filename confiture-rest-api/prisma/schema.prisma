@@ -25,10 +25,10 @@ model Audit {
   editUniqueId    String @unique
   consultUniqueId String @unique
 
-  procedure      String
-  ministry       String
-  administration String
-  url            String
+  initiator String
+
+  procedure String
+  url       String
 
   contactName    String?
   contactEmail   String

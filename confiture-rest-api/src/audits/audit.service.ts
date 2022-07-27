@@ -16,8 +16,7 @@ export class AuditService {
         procedure: data.procedure,
         url: data.procedureUrl,
 
-        ministry: data.ministry,
-        administration: data.administration,
+        initiator: data.initiator,
 
         auditorEmail: data.auditorEmail,
         auditorName: data.auditorName,
