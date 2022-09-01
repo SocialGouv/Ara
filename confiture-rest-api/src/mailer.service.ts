@@ -40,7 +40,16 @@ export class MailerService {
     return this.sendMail(
       audit.auditorEmail,
       'Nouvel audit créé',
-      `Votre audit pour "${audit.procedureName}" a été créé sur Confiture et est éditable à l'addresse: ${auditUrl}`,
+      // `Votre audit pour "${audit.procedureName}" a été créé sur Confiture et est éditable à l'addresse: ${auditUrl}`,
+      `Bonjour,
+
+vous venez de créer l'audit ${audit.procedureName}.
+Vous trouverez ci-dessous le lien administrateur. Ce lien vous permet de modifier ou de supprimer l’audit, ne le partagez pas. Pensez-bien à le conserver, c’est le seul moyen de reprendre l’édition de votre audit.
+
+Lien administrateur : ${auditUrl}
+
+Merci de votre confiance et à bientôt,
+L’équipe Confiture`,
     );
   }
 }
