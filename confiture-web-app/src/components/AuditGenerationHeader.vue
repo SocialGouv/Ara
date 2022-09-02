@@ -218,10 +218,9 @@ const disableSubmission = computed(() => !resultsStore.everyCriteriumAreTested);
   </p>
 
   <DeleteModal
-    v-if="isDeleteModalOpen"
+    :show="isDeleteModalOpen"
     @confirm="confirmDelete"
-    @cancel="closeDeleteModal"
-    v-on="{ 'dsfr.conceal': closeDeleteModal }"
+    @close="closeDeleteModal"
   />
 </template>
 

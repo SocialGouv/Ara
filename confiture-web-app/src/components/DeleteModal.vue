@@ -1,74 +1,46 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import DsfrModal from "./DsfrModal.vue";
 
-defineEmits(["confirm", "cancel"]);
+defineProps<{
+  show: boolean;
+}>();
 
-defineExpose({ close });
-
-const modalRef = ref();
-
-function close() {
-  dsfr(modalRef.value).modal.conceal();
-}
+defineEmits(["confirm", "close"]);
 </script>
 
 <template>
-  <dialog
-    id="delete-modal"
-    ref="modalRef"
-    aria-labelledby="delete-modal-title"
-    class="fr-modal"
-    role="dialog"
+  <DsfrModal
+    :show="show"
+    aria-label="Vous allez supprimer l’audit"
+    @close="$emit('close')"
   >
-    <div class="fr-container fr-container--fluid fr-container-md">
-      <div class="fr-grid-row fr-grid-row--center">
-        <div class="fr-col-12 fr-col-md-8">
-          <div class="fr-modal__body">
-            <div class="fr-modal__header">
-              <button class="fr-btn--close fr-btn" aria-controls="delete-modal">
-                Fermer
-              </button>
-            </div>
-            <div class="fr-modal__content">
-              <h1 id="delete-modal-title" class="fr-modal__title">
-                <span
-                  class="fr-icon-warning-line fr-fi--lg"
-                  aria-hidden="true"
-                />
-                Vous allez supprimer l’audit
-              </h1>
-              <p>
-                Toutes les informations saisies seront effacées. Cette action
-                est irréversible. Souhaitez-vous supprimer l’audit ?
-              </p>
-            </div>
-            <div class="fr-modal__footer">
-              <ul
-                class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
-              >
-                <li>
-                  <button
-                    class="fr-btn danger-button"
-                    @click="$emit('confirm')"
-                  >
-                    Oui, supprimer
-                  </button>
-                </li>
-                <li>
-                  <button
-                    class="fr-btn fr-btn--secondary"
-                    @click="$emit('cancel')"
-                  >
-                    Non
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </dialog>
+    <h1 class="fr-modal__title">
+      <span class="fr-icon-warning-line fr-fi--lg" aria-hidden="true" />
+      Vous allez supprimer l’audit
+    </h1>
+    <p>
+      Toutes les informations saisies seront effacées. Cette action est
+      irréversible. Souhaitez-vous supprimer l’audit ?
+    </p>
+
+    <template #footer>
+      <ul
+        class="fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left"
+      >
+        <li>
+          <button class="fr-btn danger-button" @click="$emit('confirm')">
+            Oui, supprimer
+          </button>
+        </li>
+        <li>
+          <button class="fr-btn fr-btn--secondary" @click="$emit('close')">
+            Non
+          </button>
+        </li>
+      </ul>
+    </template>
+  </DsfrModal>
 </template>
 
 <style scoped>
