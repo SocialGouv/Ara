@@ -1,5 +1,7 @@
 # Confiture Web App
 
+ljqsdlfkjqsdlfkjqsdf
+
 Partie front-end de l'application Confiture.
 
 Le projet a été créé avec [Vite.js](https://vitejs.dev/). Le framework front-end est [Vue.js (en version 3)](https://vuejs.org/) avec [TypeScript](https://www.typescriptlang.org/).
